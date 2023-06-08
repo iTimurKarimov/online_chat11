@@ -94,7 +94,7 @@ while True:
 
                 messages_container.write(f"<div class='message'><b>:</b> {message}</div>", unsafe_allow_html=True)
 
-        message = st.text_input("Введите сообщение", max_chars=500, key=username)
+        message = st.text_input("Введите сообщение", max_chars=500, key="message_input")
         if st.button("Отправить"):
             if message:
                 with open("messages.txt", "a+") as f:
