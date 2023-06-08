@@ -95,7 +95,7 @@ while True:
                 messages_container.write(f"<div class='message'><b>:</b> {message}</div>", unsafe_allow_html=True)
 
         message = st.text_input("Введите сообщение", max_chars=500, key=f"{username}_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}")
-        if st.button("Отправить"):
+        if st.button("Отправить", key=f"{username}_button_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"):
             if message:
                 with open("messages.txt", "a+") as f:
                     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
