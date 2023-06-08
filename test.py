@@ -29,7 +29,7 @@ def display_messages():
     with open("messages.txt", "r", encoding='utf-8') as f:
         messages = f.read()
         messages_container.empty()
-        message = ' '.join(messages)
+        message = '\n'.join(messages)
 
         messages_container.write(f"<div class='message'><b>:</b> {message}</div>", unsafe_allow_html=True)
 
