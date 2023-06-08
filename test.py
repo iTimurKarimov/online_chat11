@@ -62,8 +62,6 @@ with st.sidebar:
 
                         messages_container.write(f"<div class='message'><b>:</b> {message}</div>", unsafe_allow_html=True)
 
-                display_messages()
-
                 message = st.text_input("Введите сообщение", max_chars=500, key="message_input")
                 if st.button("Отправить"):
                     if message:
@@ -72,13 +70,13 @@ with st.sidebar:
                             f.write(f"{username}: {message} ({now})\n")
                     else:
                         st.write("Введите сообщение")
+
+                display_messages()
             else:
                 st.write("Неверное имя пользователя или пароль")
         else:
             st.write("Введите имя пользователя и пароль")
 
 while True:
-
-    display_messages()
 
     time.sleep(1)
