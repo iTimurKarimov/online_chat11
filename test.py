@@ -17,8 +17,12 @@ message_style = """
 
 st.markdown(message_style, unsafe_allow_html=True)
 
+# создание боковой панели для выбора имени пользователя
+with st.sidebar:
+    st.write("Выберите имя пользователя:")
+    username = st.text_input("", max_chars=50)
 
-messages_container = st.empty() 
+messages_container = st.empty()
 
 def display_messages():
 
@@ -35,20 +39,18 @@ def display_messages():
 
 display_messages()
 
-
-message = st.text_input("Введите сообщение", max_chars=500, key="message_input")
-if st.button("Отправить"):
-    if message:
-        with open("messages.txt", "a+") as f:
-            now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            f.write(f"User: {message} ({now})\n")
-        st.session_state.clear_input = True
-    else:
-        st.write("Введите сообщение")
-
-if st.session_state.get("clear_input"):
-    message = ""
-    st.session_state.clear_input = False
+# создание текстового поля для ввода сообщения (видимое только после ввода имени пользователя)
+if username:
+    message = st.text_input("Введите сообщение", max_chars=500, key="message_input")
+    if st.button("Отправить"):
+        if message:
+            with open("messages.txt", "a+") as f:
+                now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                f.write(f"{username}: {message} ({now})\n")
+        else:
+            st.write("Введите сообщение")
+else:
+    st.write("Введите имя пользователя в боковой панели")
 
 while True:
 
