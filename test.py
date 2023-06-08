@@ -22,7 +22,7 @@ if not os.path.exists("users.txt"):
 
 with st.sidebar:
     st.write("Введите имя пользователя:")
-    username = st.text_input("", max_chars=50)
+    username = st.text_input("", max_chars=12)
 
     st.write("Введите пароль:")
     password = st.text_input("", type="password", max_chars=50)
@@ -67,7 +67,7 @@ with st.sidebar:
                     if message:
                         with open("messages.txt", "a+") as f:
                             now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                            f.write(f"{username}: {message} ({now})\n")
+                            f.write(f"{username}: {message} | ```{now}```\n")
                     else:
                         st.write("Введите сообщение")
 
@@ -96,7 +96,7 @@ with st.sidebar:
                     messages_container.write(f"<div class='message'><b>:</b> {message}</div>", unsafe_allow_html=True)
 
             message = st.text_input("Введите сообщение", max_chars=500, key=username)
-            if st.button("Отправить", key=f"{username}_button_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"):
+            if st.button("Отправить", key=username):
                 if message:
                     with open("messages.txt", "a+") as f:
                         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
