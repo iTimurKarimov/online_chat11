@@ -42,10 +42,13 @@ if st.button("Отправить"):
         with open("messages.txt", "a+") as f:
             now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             f.write(f"User: {message} ({now})\n")
-        st.text_input("", value="", key="clear_input", disabled=True)
+        st.session_state.clear_input = True
     else:
         st.write("Введите сообщение")
 
+if st.session_state.get("clear_input"):
+    message = ""
+    st.session_state.clear_input = False
 
 while True:
 
