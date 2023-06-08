@@ -77,32 +77,33 @@ with st.sidebar:
         else:
             st.write("Введите имя пользователя и пароль")
 
-while True:
+
     if username and password:
         messages_container = st.empty()
 
-        def display_messages():
+        while True:
+            def display_messages():
 
-            if not os.path.exists("messages.txt"):
-                with open("messages.txt", "w") as f:
-                    f.write("")
+                if not os.path.exists("messages.txt"):
+                    with open("messages.txt", "w") as f:
+                        f.write("")
 
-            with open("messages.txt", "r", encoding='utf-8') as f:
-                messages = f.readlines()
-                messages_container.empty()
-                message = '\n'.join(messages)
+                with open("messages.txt", "r", encoding='utf-8') as f:
+                    messages = f.readlines()
+                    messages_container.empty()
+                    message = '\n'.join(messages)
 
-                messages_container.write(f"<div class='message'><b>:</b> {message}</div>", unsafe_allow_html=True)
+                    messages_container.write(f"<div class='message'><b>:</b> {message}</div>", unsafe_allow_html=True)
 
-        message = st.text_input("Введите сообщение", max_chars=500, key=f"{username}_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}")
-        if st.button("Отправить", key=f"{username}_button_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"):
-            if message:
-                with open("messages.txt", "a+") as f:
-                    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    f.write(f"{username}: {message} ({now})\n")
-            else:
-                st.write("Введите сообщение")
+            message = st.text_input("Введите сообщение", max_chars=500, key=username)
+            if st.button("Отправить", key=f"{username}_button_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"):
+                if message:
+                    with open("messages.txt", "a+") as f:
+                        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        f.write(f"{username}: {message} ({now})\n")
+                else:
+                    st.write("Введите сообщение")
 
-        display_messages()
+            display_messages()
 
-    time.sleep(1)
+            time.sleep(1)
