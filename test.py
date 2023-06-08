@@ -22,12 +22,9 @@ messages_container = st.empty()
 
 def display_messages():
 
-    if not os.path.exists("messages.txt"):
-        with open("messages.txt", "w") as f:
-            f.write("")
 
     with open("messages.txt", "r", encoding="utf-8") as f:
-        messages = f.readlines()
+        messages = f.readlines(encoding="utf-8")
         messages_container.empty()
         message = ' \n\n'.join(messages)
 
