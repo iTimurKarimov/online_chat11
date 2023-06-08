@@ -27,7 +27,7 @@ def display_messages():
             f.write("")
 
     with open("messages.txt", "r", encoding='utf-8') as f:
-        messages = f.read()
+        messages = f.readlines()
         messages_container.empty()
         message = '\n'.join(messages)
 
