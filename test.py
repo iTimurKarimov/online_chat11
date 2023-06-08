@@ -2,7 +2,7 @@ import streamlit as st
 import datetime
 import time
 import os
-
+import messages
 
 # создание div блока для сообщений
 message_style = """
@@ -28,7 +28,7 @@ def display_messages():
             f.write("")
 
     with open("messages.txt", "r", encoding='utf-8') as f:
-        messages = f.readlines()
+        messages = f.readlines(encoding="utf-8")
         messages_container.empty()
         message = ' \n\n'.join(messages)
 
