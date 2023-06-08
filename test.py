@@ -3,7 +3,6 @@ import datetime
 import time
 import os
 
-# создание div блока для сообщений
 message_style = """
     <style>
         .message {
@@ -17,40 +16,66 @@ message_style = """
 
 st.markdown(message_style, unsafe_allow_html=True)
 
-# создание боковой панели для выбора имени пользователя
+if not os.path.exists("users.txt"):
+    with open("users.txt", "w") as f:
+        f.write("")
+
 with st.sidebar:
-    st.write("Выберите имя пользователя:")
+    st.write("Введите имя пользователя:")
     username = st.text_input("", max_chars=50)
 
-messages_container = st.empty()
+    st.write("Введите пароль:")
+    password = st.text_input("", type="password", max_chars=50)
 
-def display_messages():
+    if st.button("Зарегистрироваться"):
+        if username and password:
+            with open("users.txt", "r") as f:
+                users = f.readlines()
 
-    if not os.path.exists("messages.txt"):
-        with open("messages.txt", "w") as f:
-            f.write("")
-
-    with open("messages.txt", "r", encoding='utf-8') as f:
-        messages = f.readlines()
-        messages_container.empty()
-        message = '\n'.join(messages)
-
-        messages_container.write(f"<div class='message'><b>:</b> {message}</div>", unsafe_allow_html=True)
-
-display_messages()
-
-# создание текстового поля для ввода сообщения (видимое только после ввода имени пользователя)
-if username:
-    message = st.text_input("Введите сообщение", max_chars=500, key="message_input")
-    if st.button("Отправить"):
-        if message:
-            with open("messages.txt", "a+") as f:
-                now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                f.write(f"{username}: {message} ({now})\n")
+            if any(username in user for user in users):
+                st.write("Этот пользователь уже зарегистрирован")
+            else:
+                with open("users.txt", "a") as f:
+                    f.write(f"{username}:{password}\n")
+                st.write("Вы успешно зарегистрировались!")
         else:
-            st.write("Введите сообщение")
-else:
-    st.write("Введите имя пользователя в боковой панели")
+            st.write("Введите имя пользователя и пароль")
+
+    if st.button("Войти"):
+        if username and password:
+            with open("users.txt", "r") as f:
+                users = f.readlines()
+
+            if any(f"{username}:{password}" in user for user in users):
+                messages_container = st.empty()
+
+                def display_messages():
+
+                    if not os.path.exists("messages.txt"):
+                        with open("messages.txt", "w") as f:
+                            f.write("")
+
+                    with open("messages.txt", "r", encoding='utf-8') as f:
+                        messages = f.readlines()
+                        messages_container.empty()
+                        message = '\n'.join(messages)
+
+                        messages_container.write(f"<div class='message'><b>:</b> {message}</div>", unsafe_allow_html=True)
+
+                display_messages()
+
+                message = st.text_input("Введите сообщение", max_chars=500, key="message_input")
+                if st.button("Отправить"):
+                    if message:
+                        with open("messages.txt", "a+") as f:
+                            now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                            f.write(f"{username}: {message} ({now})\n")
+                    else:
+                        st.write("Введите сообщение")
+            else:
+                st.write("Неверное имя пользователя или пароль")
+        else:
+            st.write("Введите имя пользователя и пароль")
 
 while True:
 
