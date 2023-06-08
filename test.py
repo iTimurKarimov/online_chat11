@@ -26,8 +26,8 @@ def display_messages():
         with open("messages.txt", "w") as f:
             f.write("")
 
-    with open("messages.txt", "r") as f:
-        messages = f.readlines(encoding="utf-8")
+    with open("messages.txt", "r", encoding="utf-8") as f:
+        messages = f.readlines()
         messages_container.empty()
         message = ' \n\n'.join(messages)
 
@@ -41,7 +41,7 @@ if st.button("Отправить"):
     if message:
         with open("messages.txt", "a+", encoding="utf-8") as f:
             now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            f.write(f"User: {message} ({now})\n", encoding="utf-8")
+            f.write(f"User: {message} ({now})\n")
         st.text_input("", value="", key="clear_input", disabled=True)
     else:
         st.write("Введите сообщение")
