@@ -1,6 +1,7 @@
 import streamlit as st
 import datetime
 import time
+import os
 
 # создание div блока для сообщений
 message_style = """
@@ -16,10 +17,14 @@ message_style = """
 
 st.markdown(message_style, unsafe_allow_html=True)
 
-# создание файла для хранения сообщений
-messages_container = st.empty()  # создание "пустого" места для отображения сообщений
+
+messages_container = st.empty() 
 
 def display_messages():
+
+    if not os.path.exists("messages.txt"):
+        with open("messages.txt", "w") as f:
+            f.write("")
 
     with open("messages.txt", "r") as f:
         messages = f.readlines()
@@ -30,7 +35,7 @@ def display_messages():
 
 display_messages()
 
-# создание формы для отправки сообщений
+
 message = st.text_input("Введите сообщение", max_chars=500, key="message_input")
 if st.button("Отправить"):
     if message:
@@ -41,9 +46,9 @@ if st.button("Отправить"):
     else:
         st.write("Введите сообщение")
 
-# автоматическое обновление сообщений
+
 while True:
 
-    display_messages()  # отображение сообщений
+    display_messages()
 
     time.sleep(1)
