@@ -2,7 +2,6 @@ import streamlit as st
 import datetime
 import time
 import os
-import messages
 
 # создание div блока для сообщений
 message_style = """
